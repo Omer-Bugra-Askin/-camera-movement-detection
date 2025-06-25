@@ -8,11 +8,11 @@ import time
 import pandas as pd
 from movement_utils import detect_movements
 
-# --- Inject custom CSS ---
+
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# --- Page Header ---
+
 st.set_page_config(page_title="Camera Movement Detection", layout="wide")
 st.markdown("""
 <div class='custom-card' style='text-align:center;'>
@@ -21,7 +21,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- Sidebar: Detection Settings ---
+
 st.sidebar.markdown("""
 <div class='sidebar-card'>
     <div class='sidebar-label'>Detection Settings</div>
@@ -59,7 +59,7 @@ with st.sidebar:
         st.markdown(f"<div style='color:#64748b; font-size:0.98em; margin-top:0.5em;'>Current interval: every <b>{frame_interval}</b> frame(s)</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-# --- File Upload & Frame Extraction ---
+
 frames = []
 uploaded_files = st.file_uploader(
     "Upload multiple images or a video (at least 10 frames recommended)",
@@ -97,12 +97,12 @@ if uploaded_files:
     else:
         st.markdown(f"<div class='custom-success'>{len(frames)} frames loaded. Running analysis...</div>", unsafe_allow_html=True)
 
-        # --- Movement Detection (calls movement_utils) ---
+        
         camera_movement_indices, object_movement_indices, match_counts, inlier_ratios, translation_magnitudes, optical_flow_object_indices = detect_movements(
             frames, homography_threshold, feature_threshold, min_feature_matches, feature_algorithm, object_flow_threshold
         )
 
-        # --- Results ---
+       
         st.markdown("<div class='custom-card' style='margin-top:2em;'>"
                     "<h2 style='color:#2563eb;'>Results</h2>", unsafe_allow_html=True)
         if camera_movement_indices:
@@ -113,7 +113,7 @@ if uploaded_files:
             st.markdown(f"<div style='color:#facc15; font-weight:600; font-size:1.15em; margin-bottom:1em;'><b>Object movement</b> detected in {len(object_movement_indices)} frames!<br>Frame indices: {object_movement_indices}</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # --- Summary Table ---
+       
         st.markdown("<div class='custom-card'><h3 style='color:#2563eb;'>Frame Summary</h3>", unsafe_allow_html=True)
         df = pd.DataFrame({
             "Frame": list(range(len(frames))),
@@ -127,14 +127,14 @@ if uploaded_files:
         st.dataframe(df, use_container_width=True, hide_index=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # --- Frame Gallery (only show frames with movement) ---
+       
         st.markdown("<div class='custom-card'><h3 style='color:#2563eb;'>Frame Gallery</h3>", unsafe_allow_html=True)
-        cols = st.columns(4)
+        gallery_frames = []
         for idx, frame in enumerate(frames):
             cam = idx in camera_movement_indices
             obj = idx in object_movement_indices
             if not (cam or obj):
-                continue  # Skip frames with no movement
+                continue
             if cam:
                 movement_text = "Camera movement detected"
             elif obj:
@@ -142,7 +142,11 @@ if uploaded_files:
             caption = f"Frame {idx}: {movement_text}"
             img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             pil_img = Image.fromarray(img_rgb)
-            cols[idx % 4].image(pil_img, caption=caption, use_container_width=True, output_format="PNG")
+            gallery_frames.append((pil_img, caption))
+        for i in range(0, len(gallery_frames), 4):
+            cols = st.columns(4)
+            for j, (img, caption) in enumerate(gallery_frames[i:i+4]):
+                cols[j].image(img, caption=caption, use_container_width=True, output_format="PNG")
         st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.markdown("<div class='custom-info'>Upload images or a video to get started.</div>", unsafe_allow_html=True) 
