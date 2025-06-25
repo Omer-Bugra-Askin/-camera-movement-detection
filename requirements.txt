@@ -1,4 +1,5 @@
 streamlit
 opencv-contrib-python
 numpy
-pillow 
+pillow
+pandas 
