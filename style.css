@@ -177,4 +177,19 @@ section[data-testid="stSidebar"] {
   .custom-info {
     color: #60a5fa;
   }
+  section[data-testid="stSidebar"], .sidebar-card, .sidebar-label {
+    color: #f1f5f9 !important;
+  }
+  section[data-testid="stSidebar"] label,
+  section[data-testid="stSidebar"] .stSlider label,
+  section[data-testid="stSidebar"] .stSelectbox label,
+  section[data-testid="stSidebar"] .stSlider,
+  section[data-testid="stSidebar"] .stSelectbox,
+  section[data-testid="stSidebar"] span,
+  section[data-testid="stSidebar"] div {
+    color: #f1f5f9 !important;
+  }
+  section[data-testid="stSidebar"] .stSlider > div[data-baseweb="slider"] > div {
+    background: #232336 !important;
+  }
 } 
