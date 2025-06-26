@@ -76,7 +76,10 @@ Bu uygulama, kullanıcıdan yüklenen video veya görseller üzerinde çalışı
 
 ## Destek ve Katkı Bilgisi
 
-> Bu projede yalnızca "Zorluklar ve Varsayımlar" ile "Parametre Açıklamaları" bölümlerinin hazırlanmasında yapay zeka (ChatGPT) desteği alınmıştır. Diğer tüm içerik ve kodlar tarafımdan hazırlanmıştır.
+> "Zorluklar ve Varsayımlar" ile "Parametre Açıklamaları" bölümlerinin hazırlanmasında yapay zeka  desteği alınmıştır.
+   Bunun için kulandığım komutlar şunlardır:
+   - bu projedeki parametrelerin açıklamalarını anaşılır ve kısa özet şeklinde verir misin.
+   - bu projedeki zorluklar ve varsayımlar hakkında bana yardımcı olur musun.
 
 ## Dosya ve Dizin Yapısı
 
