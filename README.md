@@ -62,7 +62,7 @@ streamlit run app.py
   - Kamera sabitken, hareketli piksel oranı bu değeri aşarsa nesne hareketi olarak algılanır. (Varsayılan: %2)
 
 ## Dosya ve Dizin Yapısı
-``` 
+```
 atp-uygulama/
 ├── app.py                # Streamlit arayüzü ve ana uygulama dosyası
 ├── movement_detector.py  # (Varsa) Hareket tespitine dair yardımcı fonksiyonlar
