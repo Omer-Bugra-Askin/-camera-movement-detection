@@ -67,9 +67,16 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True
 )
 if uploaded_files:
-    if len(uploaded_files) == 1 and uploaded_files[0].name.lower().endswith((".mp4", ".avi")):
+    # Video ve resim dosyalarını ayır
+    video_files = [f for f in uploaded_files if f.name.lower().endswith((".mp4", ".avi"))]
+    image_files = [f for f in uploaded_files if f.name.lower().endswith((".jpg", ".jpeg", ".png"))]
+
+    if len(video_files) > 1:
+        st.markdown("<div class='custom-error'>Lütfen aynı anda sadece bir video yükleyin.</div>", unsafe_allow_html=True)
+    elif len(video_files) == 1:
+        # Sadece bir video varsa, sadece onu işle
         tfile = tempfile.NamedTemporaryFile(delete=False)
-        tfile.write(uploaded_files[0].read())
+        tfile.write(video_files[0].read())
         cap = cv2.VideoCapture(tfile.name)
         idx = 0
         while True:
@@ -85,12 +92,18 @@ if uploaded_files:
             os.unlink(tfile.name)
         except PermissionError:
             pass
+    elif len(image_files) > 0:
+        # Sadece resimler varsa, onları işle
+        for file in image_files:
+            try:
+                img = Image.open(file).convert("RGB")
+                frame = np.array(img)
+                frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                frames.append(frame)
+            except Exception:
+                st.markdown("<div class='custom-error'>Yüklediğiniz dosyalardan biri resim olarak açılamadı. Lütfen geçerli bir resim yükleyin.</div>", unsafe_allow_html=True)
     else:
-        for file in uploaded_files:
-            img = Image.open(file).convert("RGB")
-            frame = np.array(img)
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-            frames.append(frame)
+        st.markdown("<div class='custom-error'>Lütfen en az bir video veya resim yükleyin.</div>", unsafe_allow_html=True)
 
     if len(frames) < 2:
         st.markdown("<div class='custom-error'>At least 2 frames are required.</div>", unsafe_allow_html=True)
