@@ -67,13 +67,13 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True
 )
 if uploaded_files:
-    # Video ve resim dosyalarını ayır
     video_files = [f for f in uploaded_files if f.name.lower().endswith((".mp4", ".avi"))]
     image_files = [f for f in uploaded_files if f.name.lower().endswith((".jpg", ".jpeg", ".png"))]
 
-    if len(video_files) >= 1:
-        # Birden fazla video varsa, sadece en son yükleneni işle
-        last_video = video_files[-1]
+    if len(video_files) > 1:
+        st.error("Lütfen aynı anda sadece bir video yükleyin. Birden fazla video yüklemek uygulamanın çökmesine neden olur.")
+    elif len(video_files) == 1:
+        last_video = video_files[0]
         tfile = tempfile.NamedTemporaryFile(delete=False)
         tfile.write(last_video.read())
         cap = cv2.VideoCapture(tfile.name)
@@ -92,7 +92,6 @@ if uploaded_files:
         except PermissionError:
             pass
     elif len(image_files) > 0:
-        # Sadece resimler varsa, onları işle
         for file in image_files:
             try:
                 img = Image.open(file).convert("RGB")
@@ -104,9 +103,9 @@ if uploaded_files:
     else:
         st.markdown("<div class='custom-error'>Lütfen en az bir video veya resim yükleyin.</div>", unsafe_allow_html=True)
 
-    if len(frames) < 2:
+    if len(frames) < 2 and len(video_files) <= 1:
         st.markdown("<div class='custom-error'>At least 2 frames are required.</div>", unsafe_allow_html=True)
-    else:
+    elif len(frames) >= 2:
         st.markdown(f"<div class='custom-success'>{len(frames)} frames loaded. Running analysis...</div>", unsafe_allow_html=True)
 
         
