@@ -30,30 +30,36 @@ st.sidebar.markdown("""
 with st.sidebar:
     with st.container():
         st.markdown("<div class='sidebar-card sidebar-slider'>", unsafe_allow_html=True)
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Feature Detection Algorithm</span>', unsafe_allow_html=True)
         feature_algorithm = st.selectbox(
-            "Feature Detection Algorithm",
+            "",
             options=["ORB", "SIFT"],
             index=0,
             help="SIFT requires opencv-contrib-python."
         )
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Minimum Keypoints per Frame</span>', unsafe_allow_html=True)
         feature_threshold = st.slider(
-            "Minimum Keypoints per Frame", min_value=10, max_value=50, value=20, step=1, key="feature_slider",
+            "", min_value=10, max_value=50, value=20, step=1, key="feature_slider",
             help="Minimum number of keypoints required in each frame for analysis. Lower values allow analysis of low-detail images, higher values require more features."
         )
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Homography Translation Threshold (pixels)</span>', unsafe_allow_html=True)
         homography_threshold = st.slider(
-            "Homography Translation Threshold (pixels)", min_value=10, max_value=40, value=20, step=1, key="homography_slider",
+            "", min_value=10, max_value=40, value=20, step=1, key="homography_slider",
             help="Minimum pixel shift between frames to consider as significant camera movement. Lower values are more sensitive, higher values detect only large movements."
         )
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Minimum Feature Matches</span>', unsafe_allow_html=True)
         min_feature_matches = st.slider(
-            "Minimum Feature Matches", min_value=10, max_value=40, value=20, step=1, key="match_slider",
+            "", min_value=10, max_value=40, value=20, step=1, key="match_slider",
             help="Minimum number of feature matches required between frames for movement analysis. Lower values are more tolerant, higher values require more similarity."
         )
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Frame Extraction Interval (video)</span>', unsafe_allow_html=True)
         frame_interval = st.slider(
-            "Frame Extraction Interval (video)", min_value=1, max_value=10, value=2, step=1, key="interval_slider",
+            "", min_value=1, max_value=10, value=2, step=1, key="interval_slider",
             help="For videos: Analyze every Nth frame. 1 = every frame, 2 = every 2nd frame, etc."
         )
+        st.markdown('<span style="color:#ff3333;font-weight:bold;">Object Movement Threshold (%)</span>', unsafe_allow_html=True)
         object_flow_threshold = st.slider(
-            "Object Movement Threshold (%)", min_value=1, max_value=20, value=2, step=1, key="object_flow_slider",
+            "", min_value=1, max_value=20, value=2, step=1, key="object_flow_slider",
             help="If more than this percent of pixels are moving (when camera is still), object movement is detected."
         )
         st.markdown(f"<div style='color:#64748b; font-size:0.98em; margin-top:0.5em;'>Current interval: every <b>{frame_interval}</b> frame(s)</div>", unsafe_allow_html=True)
