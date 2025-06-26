@@ -127,4 +127,54 @@ section[data-testid="stSidebar"] {
 }
 .sidebar-slider .stSlider .css-1gv0vcd:focus {
     box-shadow: 0 0 0 2px #2563eb44;
+}
+@media (prefers-color-scheme: dark) {
+  body, .main, .stApp {
+    background-color: #181825 !important;
+  }
+  .custom-card, .sidebar-card, section[data-testid="stSidebar"] {
+    background: #232336 !important;
+    color: #f1f5f9 !important;
+  }
+  .custom-header, .sidebar-label {
+    color: #60a5fa !important;
+  }
+  .custom-sub {
+    color: #a5b4fc !important;
+  }
+  .sidebar-card {
+    background: #232336 !important;
+    color: #f1f5f9 !important;
+  }
+  .sidebar-label {
+    color: #60a5fa !important;
+  }
+  .stButton>button {
+    background-color: #2563eb;
+    color: #fff;
+  }
+  .stFileUploader {
+    background-color: #232336;
+    color: #60a5fa;
+  }
+  .stDataFrame, .css-1v0mbdj, .st-emotion-cache-1v0mbdj {
+    background: #232336 !important;
+    color: #f1f5f9 !important;
+  }
+  .stDataFrame th, .stDataFrame td {
+    color: #f1f5f9 !important;
+    background: #232336 !important;
+  }
+  .frame-caption {
+    color: #60a5fa;
+  }
+  .custom-success {
+    color: #22c55e;
+  }
+  .custom-error {
+    color: #ef4444;
+  }
+  .custom-info {
+    color: #60a5fa;
+  }
 } 

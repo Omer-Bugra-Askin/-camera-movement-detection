@@ -158,9 +158,11 @@ if uploaded_files:
        
         st.markdown("<div class='custom-card'><h3 style='color:#2563eb;'>Frame Gallery</h3>", unsafe_allow_html=True)
         gallery_frames = []
+        camera_set = set(int(x) for x in camera_movement_indices)
+        object_set = set(int(x) for x in object_movement_indices)
         for idx, frame in enumerate(frames):
-            cam = idx in camera_movement_indices
-            obj = idx in object_movement_indices
+            cam = idx in camera_set
+            obj = idx in object_set
             if not (cam or obj):
                 continue
             if cam and obj:
