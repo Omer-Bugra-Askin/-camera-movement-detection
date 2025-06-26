@@ -60,8 +60,8 @@ with st.sidebar:
         st.markdown("</div>", unsafe_allow_html=True)
 
 
+MAX_FRAMES = 60
 frames = []
-MAX_FRAMES = 300
 uploaded_files = st.file_uploader(
     "Upload multiple images or a video (at least 10 frames recommended)",
     type=["jpg", "jpeg", "png", "mp4", "avi"],
@@ -78,22 +78,30 @@ if uploaded_files:
         tfile = tempfile.NamedTemporaryFile(delete=False)
         tfile.write(last_video.read())
         cap = cv2.VideoCapture(tfile.name)
-        idx = 0
-        while True:
-            ret, frame = cap.read()
-            if not ret or len(frames) >= MAX_FRAMES:
-                break
-            if idx % frame_interval == 0:
-                frames.append(frame)
-            idx += 1
-        cap.release()
-        time.sleep(0.1)
-        try:
-            os.unlink(tfile.name)
-        except PermissionError:
-            pass
-        if idx > MAX_FRAMES:
-            st.warning(f"Çok fazla frame tespit edildi ({idx}). Sadece ilk {MAX_FRAMES} frame işlenecek.")
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if total_frames < 2:
+            st.error("Video çok kısa veya bozuk.")
+        else:
+            indices = np.linspace(0, total_frames - 1, min(MAX_FRAMES, total_frames), dtype=int)
+            idx_set = set(indices)
+            idx = 0
+            selected = 0
+            while True:
+                ret, frame = cap.read()
+                if not ret or selected >= len(indices):
+                    break
+                if idx in idx_set:
+                    frames.append(frame)
+                    selected += 1
+                idx += 1
+            cap.release()
+            time.sleep(0.1)
+            try:
+                os.unlink(tfile.name)
+            except PermissionError:
+                pass
+            if total_frames > MAX_FRAMES:
+                st.warning(f"Video {total_frames} kare içeriyor. Eşit aralıklı {MAX_FRAMES} kare analiz edilecek.")
     elif len(image_files) > 0:
         if len(image_files) > MAX_FRAMES:
             st.warning(f"Çok fazla resim yüklendi ({len(image_files)}). Sadece ilk {MAX_FRAMES} resim işlenecek.")
