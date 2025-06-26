@@ -61,6 +61,7 @@ with st.sidebar:
 
 
 frames = []
+MAX_FRAMES = 300
 uploaded_files = st.file_uploader(
     "Upload multiple images or a video (at least 10 frames recommended)",
     type=["jpg", "jpeg", "png", "mp4", "avi"],
@@ -80,7 +81,7 @@ if uploaded_files:
         idx = 0
         while True:
             ret, frame = cap.read()
-            if not ret:
+            if not ret or len(frames) >= MAX_FRAMES:
                 break
             if idx % frame_interval == 0:
                 frames.append(frame)
@@ -91,8 +92,12 @@ if uploaded_files:
             os.unlink(tfile.name)
         except PermissionError:
             pass
+        if idx > MAX_FRAMES:
+            st.warning(f"Çok fazla frame tespit edildi ({idx}). Sadece ilk {MAX_FRAMES} frame işlenecek.")
     elif len(image_files) > 0:
-        for file in image_files:
+        if len(image_files) > MAX_FRAMES:
+            st.warning(f"Çok fazla resim yüklendi ({len(image_files)}). Sadece ilk {MAX_FRAMES} resim işlenecek.")
+        for file in image_files[:MAX_FRAMES]:
             try:
                 img = Image.open(file).convert("RGB")
                 frame = np.array(img)
@@ -109,7 +114,6 @@ if uploaded_files:
         st.markdown(f"<div class='custom-success'>{len(frames)} frames loaded. Running analysis...</div>", unsafe_allow_html=True)
 
         # Frame sayısını 300 ile sınırla
-        MAX_FRAMES = 300
         if len(frames) > MAX_FRAMES:
             st.warning(f"Çok fazla frame tespit edildi ({len(frames)}). Sadece ilk {MAX_FRAMES} frame işlenecek.")
             frames = frames[:MAX_FRAMES]
