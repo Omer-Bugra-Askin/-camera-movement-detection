@@ -163,7 +163,9 @@ if uploaded_files:
             obj = idx in object_movement_indices
             if not (cam or obj):
                 continue
-            if cam:
+            if cam and obj:
+                movement_text = "Camera and object movement detected"
+            elif cam:
                 movement_text = "Camera movement detected"
             elif obj:
                 movement_text = "Object movement detected"
