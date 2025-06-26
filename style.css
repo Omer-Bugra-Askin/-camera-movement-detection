@@ -187,7 +187,7 @@ section[data-testid="stSidebar"] {
   section[data-testid="stSidebar"] .stSelectbox,
   section[data-testid="stSidebar"] span,
   section[data-testid="stSidebar"] div {
-    color: #fff !important;
+    color: #ff3333 !important;
     opacity: 1 !important;
     filter: none !important;
     text-shadow: none !important;
@@ -196,7 +196,7 @@ section[data-testid="stSidebar"] {
   }
   section[data-testid="stSidebar"] label,
   section[data-testid="stSidebar"] label:not(:focus):not(:hover) {
-    color: #fff !important;
+    color: #ff3333 !important;
     opacity: 1 !important;
     filter: none !important;
     text-shadow: none !important;
