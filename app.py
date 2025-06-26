@@ -71,12 +71,11 @@ if uploaded_files:
     video_files = [f for f in uploaded_files if f.name.lower().endswith((".mp4", ".avi"))]
     image_files = [f for f in uploaded_files if f.name.lower().endswith((".jpg", ".jpeg", ".png"))]
 
-    if len(video_files) > 1:
-        st.markdown("<div class='custom-error'>Lütfen aynı anda sadece bir video yükleyin.</div>", unsafe_allow_html=True)
-    elif len(video_files) == 1:
-        # Sadece bir video varsa, sadece onu işle
+    if len(video_files) >= 1:
+        # Birden fazla video varsa, sadece en son yükleneni işle
+        last_video = video_files[-1]
         tfile = tempfile.NamedTemporaryFile(delete=False)
-        tfile.write(video_files[0].read())
+        tfile.write(last_video.read())
         cap = cv2.VideoCapture(tfile.name)
         idx = 0
         while True:
