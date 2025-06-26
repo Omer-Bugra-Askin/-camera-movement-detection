@@ -108,7 +108,12 @@ if uploaded_files:
     elif len(frames) >= 2:
         st.markdown(f"<div class='custom-success'>{len(frames)} frames loaded. Running analysis...</div>", unsafe_allow_html=True)
 
-        
+        # Frame sayısını 300 ile sınırla
+        MAX_FRAMES = 300
+        if len(frames) > MAX_FRAMES:
+            st.warning(f"Çok fazla frame tespit edildi ({len(frames)}). Sadece ilk {MAX_FRAMES} frame işlenecek.")
+            frames = frames[:MAX_FRAMES]
+
         camera_movement_indices, object_movement_indices, match_counts, inlier_ratios, translation_magnitudes, optical_flow_object_indices = detect_movements(
             frames, homography_threshold, feature_threshold, min_feature_matches, feature_algorithm, object_flow_threshold
         )
