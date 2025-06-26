@@ -45,7 +45,7 @@ streamlit run app.py
 2. "Upload" alanından bir video yükleyin.
 3. Yükleme sonrası analiz otomatik başlar ve sonuçlar ekranda özet tablo ve galeri olarak gösterilir.
 4. Sonuçlar arasında hangi karelerde kamera veya nesne hareketi tespit edildiği, özet tablo ve görsellerle birlikte sunulur.
-5. Galeri bölümünde kamera veya nesne hareketi tespit edilen frame gösterilir ve kamera mı nesne mi hareketi olduğu
+5. Galeri bölümünde kamera veya nesne hareketi tespit edilen frame gösterilir ve kamera mı nesne mi hareketi olduğu belirtilir.
 
 ## Parametre Açıklamaları
 - **Feature Detection Algorithm (Özellik Algoritması):**
